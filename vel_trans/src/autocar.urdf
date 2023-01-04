@@ -1,0 +1,208 @@
+<?xml version="1.0" ?>
+<robot name="autocar">
+  <joint name="autocar__chassis_link_joint" type="fixed">
+    <parent link="autocar__base_link"/>
+    <child link="autocar__chassis_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+  <joint name="autocar__hokuyo_joint" type="fixed">
+    <parent link="autocar__base_link"/>
+    <child link="autocar__hokuyo_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+  <joint name="autocar__bl_axle" type="fixed">
+    <parent link="autocar__chassis_link"/>
+    <child link="autocar__bl_1"/>
+    <origin xyz="-0.875   -1.01364  0.32499" rpy="0 0 0"/>
+    <axis xyz="-1  0  0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+  <joint name="autocar__br_axle" type="fixed">
+    <parent link="autocar__chassis_link"/>
+    <child link="autocar__br_1"/>
+    <origin xyz="0.875   -1.01364  0.32499" rpy="0 0 0"/>
+    <axis xyz="-1  0  0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+  <joint name="autocar__l_steer" type="revolute">
+    <parent link="autocar__chassis_link"/>
+    <child link="autocar__l_steer_1"/>
+    <origin xyz="-0.825    1.51736  0.32499" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.95" upper="0.95" effort="0.0" velocity="0.0"/>
+  </joint>
+  <joint name="autocar__fl_axle" type="fixed">
+    <parent link="autocar__l_steer_1"/>
+    <child link="autocar__fl_1"/>
+    <origin xyz="0.775   -1.51736 -0.32499" rpy="0 0 0"/>
+    <axis xyz="-1  0  0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+  <joint name="autocar__r_steer" type="revolute">
+    <parent link="autocar__chassis_link"/>
+    <child link="autocar__r_steer_1"/>
+    <origin xyz="0.825   1.51736 0.32499" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.95" upper="0.95" effort="0.0" velocity="0.0"/>
+  </joint>
+  <joint name="autocar__fr_axle" type="fixed">
+    <parent link="autocar__r_steer_1"/>
+    <child link="autocar__fr_1"/>
+    <origin xyz="-0.775   -1.51736 -0.32499" rpy="0 0 0"/>
+    <axis xyz="-1  0  0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+  <joint name="autocar__steering_joint" type="revolute">
+    <parent link="autocar__chassis_link"/>
+    <child link="autocar__steering_wheel"/>
+    <origin xyz="-0.002  0     0" rpy="0 0 0"/>
+    <axis xyz="-9.6409e-01  7.6000e-04  2.6555e-01"/>
+    <limit lower="-100.0" upper="100.0" effort="0.0" velocity="0.0"/>
+  </joint>
+  <link name="autocar__base_link">
+    <inertial>
+      <mass value="0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+  <link name="autocar__hokuyo_link">
+    <inertial>
+      <mass value="0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+  <link name="autocar__chassis_link">
+    <inertial>
+      <mass value="1580"/>
+      <origin xyz="0      0.07307 0.65096" rpy="0 0 0"/>
+      <inertia ixx="1997.86" ixy="-3e-05" ixz="-1e-06" iyy="442.769" iyz="62.5206" izz="2238.05"/>
+    </inertial>
+    <collision name="autocar__chassis_link_fixed_joint_lump__chassis_link_collision">
+      <origin xyz="0      0      0.46936" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/chassis_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <collision name="autocar__chassis_link_fixed_joint_lump__spoiler_link_collision_1">
+      <origin xyz="0      0.05    0.41936" rpy="1.5708  0      3.14159"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/spoiler.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="autocar__chassis_link_fixed_joint_lump__chassis_link_visual">
+      <origin xyz="0      0      0.46936" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/chassis_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+    <visual name="autocar__chassis_link_fixed_joint_lump__spoiler_link_visual_1">
+      <origin xyz="0      0.05    0.41936" rpy="1.5708  0      3.14159"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/spoiler.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="autocar__bl_1">
+    <inertial>
+      <mass value="24.5"/>
+      <origin xyz="-0.03769  0       0" rpy="0 0 0"/>
+      <inertia ixx="1.84514" ixy="0" ixz="0" iyy="1.04961" iyz="0" izz="1.04961"/>
+    </inertial>
+    <collision name="autocar__bl_1_collision">
+      <origin xyz="0.875    1.01364 -0.32499" rpy="3.14159 1.57079 3.14159"/>
+      <geometry>
+        <cylinder radius=".3425" length=".22"/>
+      </geometry>
+    </collision>
+    <visual name="autocar__bl_1_visual">
+      <origin xyz="1.75     2.02724 -0.18059" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/bl_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="autocar__br_1">
+    <inertial>
+      <mass value="24.5"/>
+      <origin xyz="-0.03769  0       0" rpy="0 0 0"/>
+      <inertia ixx="1.84514" ixy="0" ixz="0" iyy="1.04961" iyz="0" izz="1.04961"/>
+    </inertial>
+    <collision name="autocar__br_1_collision">
+      <origin xyz="-0.875    1.01364 -0.32499" rpy="3.14159 1.57079 3.14159"/>
+      <geometry>
+        <cylinder radius=".3425" length=".22"/>
+      </geometry>
+    </collision>
+    <visual name="autocar__br_1_visual">
+      <origin xyz="-1.75     2.02724 -0.18059" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/br_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="autocar__l_steer_1">
+    <inertial>
+      <mass value="1"/>
+      <origin xyz="0.00338 0      0.02162" rpy="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="autocar__fl_1">
+    <inertial>
+      <mass value="24.5"/>
+      <origin xyz="-0.03769  0       0" rpy="0 0 0"/>
+      <inertia ixx="1.84514" ixy="0" ixz="0" iyy="1.04961" iyz="0" izz="1.04961"/>
+    </inertial>
+    <collision name="autocar__fl_1_collision">
+      <origin xyz="0.925  -1.5174  0.1444" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/fl_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="autocar__fl_1_visual">
+      <origin xyz="0.925  -1.5174  0.1444" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/fl_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="autocar__r_steer_1">
+    <inertial>
+      <mass value="1"/>
+      <origin xyz="0.00338 0      0.02162" rpy="0 0 0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="autocar__fr_1">
+    <inertial>
+      <mass value="24.5"/>
+      <origin xyz="-0.03769  0       0" rpy="0 0 0"/>
+      <inertia ixx="1.84514" ixy="0" ixz="0" iyy="1.04961" iyz="0" izz="1.04961"/>
+    </inertial>
+    <collision name="autocar__fr_1_collision">
+      <origin xyz="-0.925  -1.5174  0.1444" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/fr_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+    <visual name="autocar__fr_1_visual">
+      <origin xyz="-0.925  -1.5174  0.1444" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://PATHTOMESHES/meshes/fr_1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="autocar__steering_wheel">
+    <inertial>
+      <mass value="0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+</robot>
