@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+
+
+<node pkg="test_server" exec="cp_node" name="cp_node" output="screen"/>
+
+</launch>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="sonar_server" name="sonar_server_node" exec="sonar_interface" output="screen">
+    <remap from="~/output/fb_sonar_dist" to="/perception/object_recognition/fb_sonar_dist" />
+    <remap from="~/output/lr_sonar_dist" to="/perception/object_recognition/lr_sonar_dist" />
+  </node>
+</launch>
+

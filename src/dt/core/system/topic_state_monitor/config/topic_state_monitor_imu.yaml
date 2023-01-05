@@ -1,0 +1,13 @@
+/**:
+  ros__parameters:
+    topic: /driver/imu
+    topic_type: sensor_msgs/Imu
+    diag_name: imu_diag
+    best_effort: true
+    transient_local: false
+    update_rate: 1.0
+    warn_rate: 190.0
+    error_rate: 180.0
+    timeout: 1.0
+    window_size: 400
+

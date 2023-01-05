@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="imu_interface_node" pkg="imu_server" exec="imu_interface">
+        <param name="port" value="/dev/ttyUSB0" />
+    </node>
+    <node name="imu_interface_node2" pkg="imu_server" exec="imu_interface2">
+        <param name="port" value="/dev/ttyUSB1" />
+        <param name="topic" value="imu2" />
+    </node>
+</launch>
+

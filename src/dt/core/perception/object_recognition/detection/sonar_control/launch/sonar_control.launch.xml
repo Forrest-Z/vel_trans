@@ -1,0 +1,12 @@
+<launch>
+  <arg name="sonar_distance_LR" default="0.35"/>
+  <arg name="sonar_distance_FB" default="0.35"/>
+  <arg name="is_LR_check" default="true"/>
+  <arg name="is_FB_check" default="true"/>
+  <node pkg="sonar_control" exec="sonar_control_node"  output="screen">
+    <param name="sonar_distance_LR" value="$(var sonar_distance_LR)" />
+    <param name="sonar_distance_FB" value="$(var sonar_distance_FB)" />
+    <param name="is_LR_check" value="$(var is_LR_check)" />
+    <param name="is_FB_check" value="$(var is_FB_check)" />
+  </node>
+</launch>

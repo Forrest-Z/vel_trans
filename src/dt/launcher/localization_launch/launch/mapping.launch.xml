@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Optional parameters -->
+  <arg name="dt_launch_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="vehicle_model" default="$(var dt_launch_path)/urdf/vehicle0.xacro" description="vehicle model location"/>
+
+  <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+    <arg name="use_sim_time" value="true" />
+    <arg name="vehicle_param_path" value="dt_launch"/>
+  </include>
+
+  <!-- Vehicle -->
+  <include file="$(find-pkg-share vehicle_launch)/launch/vehicle.launch.xml">
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+  <arg name="lua_path" default="$(find-pkg-share dt_launch)"/>
+  <!-- localization module -->
+  <group>
+    <node pkg="cartographer_ros" exec="cartographer_node" name="cartographer_node" 
+      args="
+          -configuration_directory $(var lua_path)/lua
+          -configuration_basename mapping.lua">
+      <remap from="/points2" to="/rslidar_points" />
+      <remap from="/imu" to="/driver/imu" />
+      <param name="use_sim_time" value="true"/>
+    </node>
+    <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" 
+      exec="cartographer_occupancy_grid_node" args="-resolution 0.05" >
+      <param name="use_sim_time" value="true"/>
+    </node>  
+  </group>
+
+  <include file="$(find-pkg-share sensing_launch)/launch/sensing.launch.xml">
+    <arg name="vehicle_param_file" value="$(find-pkg-share dt_launch)/config/vehicle_info.param.yaml"/>
+  </include>
+
+  <!-- Rviz -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen"/>
+
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="map_to_base_link" args="0 0 0 0 0 0 /map /base_link"/>
+
+</launch>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="imu_interface_node" pkg="imu_server" exec="imu_interface">
+    </node>
+</launch>
+

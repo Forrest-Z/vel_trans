@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="current_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="pbstream_path" default="$(var current_path)/maps/nanjing2.pbstream" description="cartographer pbstream location"/>
+  <arg name="vehicle_model" default="$(var current_path)/urdf/vehicle0.xacro" description="vehicle model location"/>
+  <arg name="global_plan_path" default="$(var current_path)/path_data/record.path" description="global path location"/> 
+  <arg name="record_path_file" default="$(var current_path)/path_data/record.path" description="record path location"/>
+  <arg name="lua_path" default="$(var current_path)/lua" description="lua folder"/>
+  <arg name="use_sim_time" default="true" />
+  <arg name="rviz_config" default="$(var current_path)/rviz/dt.rviz" description="rviz config"/>
+  <!-- Vehicle -->
+  <include file="$(find-pkg-share vehicle_launch)/launch/vehicle.launch.xml">
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+
+  <!-- localization module -->
+  <group>
+    <node pkg="cartographer_ros" exec="cartographer_node" name="cartographer_node" 
+      args="
+          -configuration_directory $(var lua_path)
+          -configuration_basename nanjing2.lua
+          -load_state_filename $(var pbstream_path)"
+    >
+    <!-- /sensing/measurement_range_cropped/pointcloud /rslidar_points -->
+      <!-- <remap from="/points2" to="/driver/velodyne_points" /> -->
+      <remap from="/points2" to="/rslidar_points" />
+      <remap from="/imu" to="/driver/imu" />
+      <param name="use_sim_time" value="$(var use_sim_time)"/>
+    </node>
+    <!-- <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" 
+      exec="cartographer_occupancy_grid_node" args="-resolution 0.05" >
+      <param name="use_sim_time" value="$(var use_sim_time)"/>
+    </node>   -->
+  </group>
+
+
+    <node pkg="path_server" exec="record_path" name="record_path_node">
+    <param name="map_frame" value="map"/>
+    <param name="base_link_frame" value="base_link"/>
+    <param name="odom_topic" value="odom"/>
+    <param name="distance_interval" value="0.2"/>
+    <param name="path_file" value="$(var record_path_file)"/>
+  </node>
+
+  <!-- 加载路径 -->
+  <node pkg="path_server" exec="load_path" name="load_path_node">
+    <param name="map_frame" value="map"/>
+    <param name="arc_length" value="0.2" />
+    <param name="path_file" value="$(var global_plan_path)"/>
+  </node>
+  <!-- <include file="$(find-pkg-share planning_launch)/launch/planning.launch.xml">
+    <arg name="global_plan_path" value="$(var global_plan_path)" />
+    <arg name="record_path_file" value="$(var record_path_file)" />
+  </include> -->
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 /map /odom"/> 
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="odom_to_base_link" args="0 0 0 0 0 0 /odom /base_link"/> 
+
+  <!-- Rviz -->
+  <!-- Rviz -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" args="-d $(var rviz_config)"/>
+</launch>

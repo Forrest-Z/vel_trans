@@ -1,0 +1,19 @@
+<launch>
+  <!-- common param -->
+  <arg name="common_param_path"/>
+
+  <!-- lane_driving scenario -->
+  <group>
+    <push-ros-namespace namespace="lane_driving"/>
+    <!-- motion planning module -->
+    <group>
+      <push-ros-namespace namespace="motion_planning"/>
+      <include file="$(find-pkg-share planning_launch)/launch/scenario_planning/lane_driving/motion_planning/motion_planning.launch.py">
+        <arg name="use_intra_process" value="true" />
+        <arg name="use_multithread" value="false" />
+        <arg name="use_surround_obstacle_check" value="true" />
+        <arg name="common_param_path" value="$(var common_param_path)" />
+      </include>
+    </group>
+  </group>
+</launch>

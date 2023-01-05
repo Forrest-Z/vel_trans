@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find-pkg-share velodyne_pointcloud)/launch/VLP-16_points.launch.xml" />
+</launch>
+

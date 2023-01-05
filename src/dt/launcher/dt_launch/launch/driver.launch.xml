@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Optional parameters -->
+  <!-- <arg name="scene_path" description="scene folder path include point cloud and lanelet2 map"/> -->
+  <arg name="current_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <!-- <arg name="rviz_config" default="$(var current_path)/rviz/dt.rviz" description="rviz config"/> -->
+  <!-- <arg name="map_file" default="$(var scene_path)/lanelet2_map.osm" description="lanelet2 map file name"/>
+  <arg name="global_plan_path" default="$(var scene_path)/default_path.path" description="global path location"/> 
+  <arg name="record_path_file" default="$(var current_path)/path_data/record.path" description="record path location"/>
+  <arg name="pbstream_path" default="$(var scene_path)/map.pbstream" description="cartographer pbstream location"/>
+  <arg name="lua_path" default="$(var scene_path)" description="cartographer lua tracking.lua location"/> -->
+  <arg name="vehicle_model" default="$(var current_path)/urdf/vehicle.xacro" description="vehicle model location"/>
+
+  <!-- Global parameters -->
+  <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+    <arg name="vehicle_param_path" value="dt_launch"/>
+  </include>
+
+  <!-- Vehicle -->
+  <include file="$(find-pkg-share vehicle_launch)/launch/vehicle.launch.xml">
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+  <!-- Drivers -->
+  <include file="$(find-pkg-share driver_launch)/launch/drivers.launch.xml">
+  </include>
+
+</launch>

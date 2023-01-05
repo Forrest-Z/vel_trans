@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <group>
+    <push-ros-namespace namespace="driver"/>
+    <include file="$(find-pkg-share driver_launch)/launch/lidar.launch.xml" />
+    <!-- <include file="$(find-pkg-share driver_launch)/launch/lidar_vlp.launch.xml" /> -->
+
+    <include file="$(find-pkg-share driver_launch)/launch/can.launch.xml" />
+
+    <include file="$(find-pkg-share driver_launch)/launch/imu2.launch.xml" />
+    <node name="data_transformer" pkg="data_transformer" exec="data_transformer" >
+      <remap from="~/input/engage" to="/vehicle/engage" />
+      <remap from="~/input/odom" to="/odom" />
+      <remap from="~/input/steer" to="/driver/steer" />
+      <remap from="~/output/twist" to="/localization/twist" />
+      <remap from="~/output/control_mode" to="/vehicle/status/control_mode" />
+      <remap from="~/output/steer" to="/vehicle/status/steering" />
+    </node>
+  </group>
+</launch>
+

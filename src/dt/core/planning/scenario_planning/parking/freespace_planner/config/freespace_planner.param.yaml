@@ -1,0 +1,35 @@
+/**:
+  ros__parameters:
+    # -- Node Configurations --
+    planning_algorithm: "astar"
+    waypoints_velocity: 2.0
+    update_rate: 10.0
+    th_arrived_distance_m: 0.8
+    th_stopped_time_sec: 0.1
+    th_stopped_velocity_mps: 0.03
+    th_course_out_distance_m: 0.8
+    replan_when_obstacle_found: false
+    replan_when_course_out: true
+
+    # -- Configurations common to the all planners --
+    # base configs
+    time_limit: 30000.0
+    # robot configs # TODO replace by vehicle_info
+    minimum_turning_radius: 6.0
+    maximum_turning_radius: 6.0
+    turning_radius_size: 10
+    # search configs
+    theta_size: 360
+    angle_goal_range: 4.0
+    curve_weight: 1.2
+    reverse_weight: 1.0
+    lateral_goal_range: 0.2
+    longitudinal_goal_range: 0.2
+    # costmap configs
+    obstacle_threshold: 100
+
+    # -- A* search Configurations --
+    astar:
+      only_behind_solutions: false
+      use_back: true
+      distance_heuristic_weight: 1.0

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Optional parameters -->
+  <arg name="current_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="rviz_config" default="$(var current_path)/rviz/dt.rviz" description="rviz config"/>
+  <arg name="map_file" default="$(var current_path)/lanelet2_map/lanelet2_map.osm" description="lanelet2 map file name"/>
+  <arg name="global_plan_path" default="$(var current_path)/path_data/default_path.path" description="global path location"/>
+  <arg name="record_path_file" default="$(var current_path)/path_data/record.path" description="record path location"/>
+  <arg name="vehicle_model" default="$(var current_path)/urdf/vehicle.xacro" description="vehicle model location"/>
+
+  <include file="$(find-pkg-share dt_launch)/launch/planning_simulator_backend.launch.xml">
+    <arg name="scene_path" value="$(var current_path)"/>
+    <arg name="map_file" value="$(var map_file)"/>
+    <arg name="global_plan_path" value="$(var global_plan_path)"/>
+  </include>
+</launch>

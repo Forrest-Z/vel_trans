@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="can_service" pkg="can_bus" exec="can_bus_service" output="screen">
+      <param name="enable_debug" value="true" />
+      <param name="gTxType1" value="0" />
+      <param name="gTxType2" value="0" />
+      <remap from="~/output/qianjin_pub" to="qianjin_pub" />
+      <remap from="~/output/jiaodu_pub" to="jiaodu_pub" />
+      <remap from="~/output/qianjin_rec" to="qianjin_rec" />
+      <remap from="~/output/jiaodu_rec" to="jiaodu_rec" />
+      <remap from="~/output/brush_pub" to="brush_pub" />
+      <remap from="~/output/canbus_msg" to="canbus_msg" />
+    </node>
+    <node name="can_driver" pkg="can_bus" exec="can_bus_pmdriver" output="screen">
+      <remap from="~/input/canbus_msg" to="canbus_msg" />
+      <remap from="~/input/cmd_vel" to="/cmd_vel" />
+      <remap from="~/output/odom" to="/odom" />
+      <remap from="~/output/bms" to="bms" />
+      <remap from="~/output/steer" to="/driver/steer" />
+      <param name="wheelbase" value="0.7945" />
+      <param name="max_speed" value="2.0" />
+      <param name="max_angle" value="240" />
+      <param name="vel_model" value="false" />
+      <param name="angle_acel" value="250" />
+      <param name="publish_tf" value="false" />
+      <param name="rate" value="20" />
+      <param name="brake_model" value="true" />
+    </node>
+</launch>
+

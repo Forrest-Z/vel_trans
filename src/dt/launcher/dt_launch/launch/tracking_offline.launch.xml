@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Optional parameters -->
+  <arg name="current_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="rviz_config" default="$(var current_path)/rviz/autoware.rviz" description="rviz config"/>
+  <arg name="map_file" default="$(var current_path)/lanelet2_map/clean_mode_map_up.osm" description="lanelet2 map file name"/>
+  <arg name="global_plan_path" default="$(var current_path)/path_data/up.path" description="global path location"/>
+  <arg name="record_path_file" default="$(var current_path)/path_data/record.path" description="record path location"/>
+  <arg name="pbstream_path" default="$(var current_path)/maps/map.pbstream" description="cartographer pbstream location"/>
+  <arg name="vehicle_model" default="$(var current_path)/urdf/vehicle.xacro" description="vehicle model location"/>
+
+  <!-- Global parameters -->
+  <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+    <arg name="use_sim_time" value="true" />
+    <arg name="vehicle_param_path" value="dt_launch"/>
+  </include>
+
+  <!-- Vehicle -->
+  <include file="$(find-pkg-share vehicle_launch)/launch/vehicle.launch.xml">
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+  <!-- Drivers -->
+  <node name="data_transformer" pkg="data_transformer" exec="data_transformer" >
+    <remap from="~/input/engage" to="/vehicle/engage" />
+    <remap from="~/input/odom" to="/odom" />
+    <remap from="~/input/steer" to="/driver/steer" />
+    <remap from="~/output/twist" to="/localization/twist" />
+    <remap from="~/output/control_mode" to="/vehicle/status/control_mode" />
+    <remap from="~/output/steer" to="/vehicle/status/steering" />
+  </node>
+
+  <!-- <node pkg="rslidar_sdk" name="rslidar_sdk_node" exec="rslidar_sdk_node" output="screen">
+  </node> -->
+
+  <!-- localization -->
+  <include file="$(find-pkg-share localization_launch)/launch/localization_offline.launch.xml">
+    <arg name="use_sim_time" value="true" />
+    <arg name="pbstream_path" value="$(var pbstream_path)" />
+    <arg name="lua_path" value="$(var current_path)/lua" />
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+  <!-- Map -->
+  <include file="$(find-pkg-share map_launch)/launch/map.launch.py">
+    <arg name="map_file" value="$(var map_file)" />
+    <arg name="use_intra_process" value="true" />
+  </include>
+
+  <!-- Planning -->
+  <include file="$(find-pkg-share planning_launch)/launch/planning.launch.xml">
+    <arg name="global_plan_path" value="$(var global_plan_path)" />
+    <arg name="record_path_file" value="$(var record_path_file)" />
+  </include>
+
+  <!-- Control -->
+  <include file="$(find-pkg-share control_launch)/launch/control.launch.py">
+    <arg name="lateral_controller_mode" value="mpc_follower" />
+    <arg name="use_intra_process" value="true" />
+  </include>
+
+  <!-- Perception -->
+  <include file="$(find-pkg-share perception_launch)/launch/perception.launch.xml">
+  </include>
+
+  <!-- Sensing -->
+  <include file="$(find-pkg-share sensing_launch)/launch/sensing.launch.xml">
+    <arg name="vehicle_param_file" value="$(find-pkg-share dt_launch)/config/vehicle_info.param.yaml"/>
+  </include>
+
+  <!-- System -->
+  <include file="$(find-pkg-share system_launch)/launch/system.launch.xml">
+    <arg name="run_mode" value="planning_simulation"/>
+  </include>
+
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 /map /odom"/> 
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="odom_to_base_link" args="0 0 0 0 0 0 /odom /base_link"/> 
+
+  <!-- Rviz -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" args="-d $(var rviz_config)"/>
+</launch>

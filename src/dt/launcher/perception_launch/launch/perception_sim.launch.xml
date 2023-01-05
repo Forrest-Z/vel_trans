@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<launch>
+  <!-- perception module -->
+  <group>
+    <push-ros-namespace namespace="perception"/>
+    <push-ros-namespace namespace="object_recognition"/>
+    <!-- tracking module -->
+    <group>
+      <include file="$(find-pkg-share euclidean_cluster)/launch/voxel_grid_based_euclidean_cluster.launch.xml">
+        <arg name="output_clusters" value="apollo/objects"/>
+        <arg name="use_pointcloud_map" value="false"/>
+      </include>
+      <include file="$(find-pkg-share shape_estimation)/launch/shape_estimation.launch.xml">
+        <arg name="input/objects" value="clustering/apollo/objects"/>
+        <arg name="output/objects" value="/perception/object_recognition/detection/objects"/>
+      </include>
+      <include file="$(find-pkg-share sonar_control)/launch/sonar_control.launch.xml">
+        <arg name="sonar_distance_LR" value="0.45"/>
+        <arg name="sonar_distance_FB" value="0.45"/>
+        <arg name="is_LR_check" value="true"/>
+        <arg name="is_FB_check" value="true"/>
+      </include>
+      <!-- visualization -->
+      <include file="$(find-pkg-share dynamic_object_visualization)/launch/dynamic_object_visualizer.launch.xml">
+        <arg name="input" value="/perception/object_recognition/detection/objects"/>
+        <arg name="with_feature" value="true"/>
+        <arg name="only_known_objects" value="false"/>
+      </include>
+      <include file="$(find-pkg-share perception_launch)/launch/object_recognition/tracking/tracking.launch.xml">
+        <arg name="output" value="/perception/object_recognition/tracking/objects"/>
+      </include>
+    </group>
+    <include file="$(find-pkg-share select_avoid_object)/launch/select_avoid_object.launch.xml">
+      <arg name="map_topic" value="/map/vector_map"/>
+      <arg name="input_object" value="/perception/object_recognition/tracking/objects"/>
+      <arg name="output_object" value="/perception/object_recognition/objects"/>
+    </include>
+  </group>
+</launch>

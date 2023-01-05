@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<osm generator="Dzt Map Toolbox" version="0.2.2-preview.54">
+  <node id="4" lat="0" lon="0">
+    <tag k="ele" v="0.1" />
+    <tag k="local_x" v="-2.862191" />
+    <tag k="local_y" v="6.918989" />
+  </node>
+  <node id="5" lat="0" lon="0">
+    <tag k="ele" v="0.1" />
+    <tag k="local_x" v="-3.02786" />
+    <tag k="local_y" v="-0.8673764" />
+  </node>
+  <node id="6" lat="0" lon="0">
+    <tag k="ele" v="0.1" />
+    <tag k="local_x" v="27.2906" />
+    <tag k="local_y" v="6.712322" />
+  </node>
+  <node id="7" lat="0" lon="0">
+    <tag k="ele" v="0.1" />
+    <tag k="local_x" v="27.42361" />
+    <tag k="local_y" v="-1.418153" />
+  </node>
+  <way id="2">
+    <nd ref="4" />
+    <nd ref="6" />
+    <tag k="type" v="line_thin" />
+    <tag k="subtype" v="solid" />
+  </way>
+  <way id="3">
+    <nd ref="5" />
+    <nd ref="7" />
+    <tag k="type" v="line_thin" />
+    <tag k="subtype" v="solid" />
+  </way>
+  <relation id="1">
+    <tag k="type" v="lanelet" />
+    <tag k="subtype" v="road" />
+    <tag k="speed_limit" v="60km/h" />
+    <tag k="clean_mode" v="1" />
+    <tag k="avoid" v="false" />
+    <member type="way" ref="2" role="left" />
+    <member type="way" ref="3" role="right" />
+  </relation>
+</osm>

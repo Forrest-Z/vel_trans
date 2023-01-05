@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Optional parameters -->
+  <arg name="current_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="vehicle_model" default="$(var current_path)/urdf/vehicle.xacro" description="vehicle model location"/>
+
+  <!-- Global parameters -->
+  <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+    <arg name="vehicle_param_path" value="dt_launch"/>
+  </include>
+
+  <!-- Vehicle -->
+  <include file="$(find-pkg-share vehicle_launch)/launch/vehicle.launch.xml">
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+  <node name="data_transformer" pkg="data_transformer" exec="data_transformer" >
+    <remap from="~/input/engage" to="/vehicle/engage" />
+    <remap from="~/input/odom" to="/odom" />
+  </node>
+
+  <include file="$(find-pkg-share sensing_launch)/launch/sensing.launch.xml">
+    <arg name="vehicle_param_file" value="$(find-pkg-share dt_launch)/config/vehicle_info.param.yaml"/>
+  </include>
+
+  <!-- Rviz -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen"/>
+
+  <node pkg="tf2_ros" exec="static_transform_publisher" name="map_to_base_link" args="0 0 0 0 0 0 /map /base_link"/> 
+</launch>

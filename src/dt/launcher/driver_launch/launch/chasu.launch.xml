@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="can_service" pkg="chasu" exec="can_bus_service" output="screen">
+      <remap from="~/output/qianjin_pub" to="qianjin_pub" />
+      <remap from="~/output/jiaodu_pub" to="jiaodu_pub" />
+      <remap from="~/output/qianjin_rec" to="qianjin_rec" />
+      <remap from="~/output/jiaodu_rec" to="jiaodu_rec" />
+      <remap from="~/output/brush_pub" to="brush_pub" />
+      <remap from="~/output/canbus_msg" to="canbus_msg" />
+    </node>
+    <node name="can_driver" pkg="chasu" exec="can_bus_pmdriver" output="screen">
+      <remap from="~/input/canbus_msg" to="canbus_msg" />
+      <remap from="~/input/cmd_vel" to="/cmd_vel" />
+      <remap from="~/output/odom" to="/odom" />
+      <param name="wheelbase" value="0.568" />
+      <param name="publish_tf" value="true" />
+    </node>
+    <node name="keyboard_control" pkg="keyboard_control" exec="keyboard_control" output="screen">
+        <param name="linear_min" value="0.01" />
+        <param name="linear_step" value="0.01" />
+        <param name="linear_max" value="1.0" />
+        <param name="angular_min" value="0.01" />
+        <param name="angular_step" value="0.01" />
+        <param name="angular_max" value="1.0" />
+    </node>
+</launch>
+

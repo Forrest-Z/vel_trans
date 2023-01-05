@@ -1,0 +1,14 @@
+/**:
+  ros__parameters:
+    topic: /odom
+    topic_type: nav_msgs/Odometry
+    diag_name: odom_diag
+    best_effort: true
+    transient_local: false
+    update_rate: 1.0
+    warn_rate: 10.0
+    error_rate: 10.0
+    timeout: 1.0
+    window_size: 10
+    
+   

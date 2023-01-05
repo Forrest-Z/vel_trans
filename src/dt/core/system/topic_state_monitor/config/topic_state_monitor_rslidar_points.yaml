@@ -1,0 +1,14 @@
+/**:
+  ros__parameters:
+    topic: /rslidar_points
+    topic_type: sensor_msgs/PointCloud2
+    diag_name: rslidar_points_diag
+    best_effort: true
+    transient_local: false
+    update_rate: 1.0
+    warn_rate: 9.0
+    error_rate: 8.0
+    timeout: 1.0
+    window_size: 10
+    
+   

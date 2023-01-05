@@ -1,0 +1,9 @@
+/**:
+  ros__parameters:
+    # Node
+    update_rate: 2.0
+
+    # Core
+    max_lateral_deviation: 3.0
+    max_longitudinal_deviation: 3.0
+    max_yaw_deviation_deg: 60.0

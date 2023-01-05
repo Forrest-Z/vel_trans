@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<robot name="at" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- load parameter -->
+  <xacro:property name="vehicle_info" value="${load_yaml('$(find dt_launch)/config/vehicle_info.param.yaml')}"/>
+
+  <!-- vehicle body -->
+  <link name="base_link">
+      <visual>
+          <origin
+            xyz="-0.363 0.3085 0.2883"
+            rpy="0. 1.57 -1.57"/>
+          <geometry>
+            <mesh
+              filename="package://dt_launch/meshes/ap1.stl" scale="0.001 0.001 0.001"/>
+          </geometry>
+          <material
+            name="">
+            <color
+              rgba="0.96 0.81 0.36 1"/>
+          </material>
+      </visual>
+  </link>
+
+  <link name="rslidar">
+    <visual>
+        <origin xyz="0 0 0"/>
+        <geometry>
+            <cylinder length="0.05" radius="0.03"/>
+        </geometry>
+        <material name="gray"/>
+    </visual>
+  </link>
+
+  <joint name="rslidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rslidar"/>
+      <origin xyz="-0.13 0.00 0.62" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="velodyne">
+      <visual>
+          <origin xyz="0 0 0"/>
+          <geometry>
+              <cylinder length="0.05" radius="0.03"/>
+          </geometry>
+          <material name="gray"/>
+      </visual>
+  </link>
+  
+  <joint name="velodyne_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="velodyne"/>
+      <origin xyz="0.44 0.00 1.34" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <link name="imu_link">  
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+              <box size = "0.01 0.01 0.01"/> 
+          </geometry>
+          <material name="gray"/>
+      </visual>  
+  </link>
+
+  <joint name="imu_joint" type="fixed">
+      <axis xyz="0 0 0"/>
+      <origin xyz="-0.23 0.0 0.0" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="imu_link" />
+  </joint>
+  <link name="bluesea">  
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+              <box size = "0.01 0.01 0.01"/> 
+          </geometry>
+          <material name="gray"/>
+      </visual>  
+  </link>
+
+  <joint name="bluesea_joint" type="fixed">
+      <axis xyz="0 0 0"/>
+      <origin xyz="1.05 0.0 0.4" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="bluesea" />
+  </joint>
+</robot>

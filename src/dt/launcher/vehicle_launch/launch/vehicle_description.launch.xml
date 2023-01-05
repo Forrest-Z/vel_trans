@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- tf publisher -->
+  <arg name="vehicle_model"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" exec="robot_state_publisher">
+    <param name="robot_description" value="$(command 'xacro $(var vehicle_model)')"/>
+  </node>
+
+</launch>

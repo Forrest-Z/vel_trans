@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="can_service" pkg="can_bus" exec="can_bus_service" output="screen">
+      <remap from="~/output/qianjin_pub" to="qianjin_pub" />
+      <remap from="~/output/jiaodu_pub" to="jiaodu_pub" />
+      <remap from="~/output/qianjin_rec" to="qianjin_rec" />
+      <remap from="~/output/jiaodu_rec" to="jiaodu_rec" />
+      <remap from="~/output/brush_pub" to="brush_pub" />
+      <remap from="~/output/canbus_msg" to="canbus_msg" />
+    </node>
+    <node name="can_driver" pkg="can_bus" exec="can_bus_pmdriver" output="screen">
+      <remap from="~/input/canbus_msg" to="canbus_msg" />
+      <remap from="~/input/cmd_vel" to="/cmd_vel" />
+      <remap from="~/output/odom" to="/odom" />
+      <remap from="~/output/bms" to="bms" />
+      <remap from="~/output/steer" to="/driver/steer" />
+  
+    </node>
+</launch>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+<arg name="map_topic" default="/map/vector_map"/>
+<arg name="input_object" default="/perception/object_recognition/tracking/objects"/>
+<arg name="output_object" default="/perception/object_recognition/objects"/>
+  <node pkg="select_avoid_object" exec="select_avoid_object" name="select_avoid_object_node">
+    <remap from="~/input/vector_map" to="$(var map_topic)" />
+    <remap from="~/input/objects" to="$(var input_object)" />
+    <remap from="~/output/objects" to="$(var output_object)" />
+  </node>
+</launch>

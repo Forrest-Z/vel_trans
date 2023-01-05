@@ -1,0 +1,13 @@
+<launch>
+  <arg name="input/twist" default="/localization/twist" />
+  <arg name="input/reference_trajectory" default="/planning/scenario_planning/trajectory" />
+  <arg name="input/predicted_trajectory" default="/control/trajectory_follower/predicted_trajectory" />
+  <arg name="trajectory_follow_checker_param" default="$(find-pkg-share trajectory_follow_checker)/config/trajectory_follow_checker.param.yaml" />
+
+  <node pkg="trajectory_follow_checker" exec="trajectory_follow_checker_node" name="trajectory_follow_checker_node" output="screen">
+    <remap from="~/input/twist" to="$(var input/twist)"/>
+    <remap from="~/input/reference_trajectory" to="$(var input/reference_trajectory)"/>
+    <remap from="~/input/predicted_trajectory" to="$(var input/predicted_trajectory)"/>
+    <param from="$(var trajectory_follow_checker_param)" />
+  </node>
+</launch>

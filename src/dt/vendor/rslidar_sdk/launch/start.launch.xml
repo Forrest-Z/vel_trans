@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="rslidar_sdk" name="rslidar_sdk_node" exec="rslidar_sdk_node" output="screen">
+  </node>
+  <!-- rviz -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" args="-d $(find-pkg-share rslidar_sdk)/rviz/rviz2.rviz" />
+</launch>

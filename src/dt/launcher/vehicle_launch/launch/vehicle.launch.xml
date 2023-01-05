@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- vehicle description -->
+  <arg name="vehicle_model"/>
+  <group>
+    <include file="$(find-pkg-share vehicle_launch)/launch/vehicle_description.launch.xml">
+      <arg name="vehicle_model" value="$(var vehicle_model)"/>
+    </include>
+  </group>
+
+</launch>

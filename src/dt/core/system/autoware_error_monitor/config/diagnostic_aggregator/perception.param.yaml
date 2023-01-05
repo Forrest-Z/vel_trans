@@ -1,0 +1,30 @@
+/**:
+  ros__parameters:
+    perception:
+      type: diagnostic_aggregator/AnalyzerGroup
+      path: perception
+      analyzers:
+        node_alive_monitoring:
+          type: diagnostic_aggregator/AnalyzerGroup
+          path: node_alive_monitoring
+          analyzers:
+            topic_status:
+              type: diagnostic_aggregator/GenericAnalyzer
+              path: topic_status
+              contains: [": perception_topic_status"]
+              timeout: 1.0
+        
+        autonomous_driving:
+          type: diagnostic_aggregator/AnalyzerGroup
+          path: autonomous_driving
+          analyzers:
+            performance_monitoring:
+              type: diagnostic_aggregator/AnalyzerGroup
+              path: performance_monitoring
+              analyzers:
+
+                sonar_control:
+                  type: diagnostic_aggregator/GenericAnalyzer
+                  path: sonar_control
+                  contains: [": sonar_distance_control"]
+                  timeout: 1.0

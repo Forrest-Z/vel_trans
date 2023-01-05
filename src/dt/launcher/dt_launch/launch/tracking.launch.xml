@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Optional parameters -->
+  <arg name="current_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="map_file" default="$(var current_path)/lanelet2_map/clean_mode_map.osm" description="lanelet2 map file name"/>
+  <arg name="global_plan_path" default="$(var current_path)/path_data/under.path" description="global path location"/>
+  <arg name="lua_path" default="$(var current_path)/lua" description="cartographer lua tracking.lua location"/>
+  <arg name="pbstream_path" default="$(var current_path)/maps/map.pbstream" description="cartographer map location"/>
+
+  <include file="$(find-pkg-share dt_launch)/launch/tracking_backend.launch.xml">
+    <arg name="scene_path" value="$(var current_path)"/>
+    <arg name="map_file" value="$(var map_file)"/>
+    <arg name="lua_path" value="$(var lua_path)" />
+    <arg name="pbstream_path" value="$(var pbstream_path)"/>
+    <arg name="global_plan_path" value="$(var global_plan_path)"/>
+  </include>
+  <node name="keyboard_control" pkg="keyboard_control" exec="keyboard_control" output="screen">
+  </node>
+</launch>

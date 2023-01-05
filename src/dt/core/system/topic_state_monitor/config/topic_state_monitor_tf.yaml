@@ -1,0 +1,12 @@
+/**:
+  ros__parameters:
+    topic: /tf
+    topic_type: tf2_msgs/msg/TFMessage
+    diag_name: tf_diag
+    best_effort: false
+    transient_local: false
+    update_rate: 1.0
+    warn_rate: 7.0
+    error_rate: 5.0
+    timeout: 1.0
+    window_size: 20

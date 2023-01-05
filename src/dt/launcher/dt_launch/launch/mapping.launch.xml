@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- Optional parameters -->
+  <arg name="dt_launch_path" default="$(find-pkg-share dt_launch)" description="dt_launch path"/>
+  <arg name="rviz_config" default="$(var dt_launch_path)/rviz/autoware.rviz" description="rviz config"/>
+  <arg name="map_file" default="$(var dt_launch_path)/lanelet2_map/lanelet2_map.osm" description="lanelet2 map file name"/>
+  <arg name="global_plan_path" default="$(var dt_launch_path)/path_data/default_path.path" description="global path location"/>
+  <arg name="vehicle_model" default="$(var dt_launch_path)/urdf/vehicle.xacro" description="vehicle model location"/>
+
+  <!-- Global parameters -->
+  <include file="$(find-pkg-share autoware_global_parameter_loader)/launch/global_params.launch.py">
+    <arg name="vehicle_param_path" value="dt_launch"/>
+  </include>
+
+  <!-- Vehicle -->
+  <include file="$(find-pkg-share vehicle_launch)/launch/vehicle.launch.xml">
+    <arg name="vehicle_model" value="$(var vehicle_model)"/>
+  </include>
+
+  <!-- mapping -->
+  <include file="$(find-pkg-share localization_launch)/launch/mapping.launch.xml">
+  </include>
+
+  <!-- drivers -->
+  <include file="$(find-pkg-share driver_launch)/launch/drivers.launch.xml">
+  </include>
+
+  <!-- Rviz -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen"/>
+</launch>

@@ -1,0 +1,66 @@
+<launch>
+
+  <!-- common parameters -->
+  <arg name="lateral_controller_mode" default="mpc_follower" description="options: mpc_follower, pure_pursuit"/>
+
+  <!-- control parameter -->
+  <arg name="mpc_follower_param_path" default="$(find-pkg-share control_launch)/config/mpc_follower/mpc_follower.param.yaml"/>
+  <arg name="pure_pursuit_param_path" default="$(find-pkg-share control_launch)/config/pure_pursuit/pure_pursuit.param.yaml"/>
+  <arg name="velocity_controller_param_path" default="$(find-pkg-share control_launch)/config/velocity_controller/velocity_controller.param.yaml"/>
+  <arg name="vehicle_cmd_gate_param_path" default="$(find-pkg-share control_launch)/config/vehicle_cmd_gate/vehicle_cmd_gate.param.yaml"/>
+  <arg name="obstacle_collision_checker_param" default="$(find-pkg-share control_launch)/config/obstacle_collision_checker/obstacle_collision_checker.param.yaml" />
+  <arg name="trajectory_follow_checker_param" default="$(find-pkg-share control_launch)/config/trajectory_follow_checker/trajectory_follow_checker.param.yaml" />
+
+  <!-- control module -->
+  <group>
+    <push-ros-namespace namespace="control"/>
+
+    <!-- trajectory follower -->
+    <group>
+      <push-ros-namespace namespace="trajectory_follower"/>
+
+      <!-- lateral controller -->
+      <group if="$(eval &quot;'$(var lateral_controller_mode)'=='mpc_follower'&quot;)">
+        <include file="$(find-pkg-share mpc_follower)/launch/mpc_follower.launch.xml">
+          <arg name="mpc_follower_param_path" value="$(var mpc_follower_param_path)" />
+        </include>
+      </group>
+
+      <group if="$(eval &quot;'$(var lateral_controller_mode)'=='pure_pursuit'&quot;)">
+        <include file="$(find-pkg-share pure_pursuit)/launch/pure_pursuit.launch.xml">
+          <arg name="pure_pursuit_param_path" value="$(var pure_pursuit_param_path)" />
+        </include>
+      </group>
+
+      <!-- longitudinal controller -->
+      <include file="$(find-pkg-share velocity_controller)/launch/velocity_controller.launch.xml">
+        <arg name="velocity_controller_param_path" value="$(var velocity_controller_param_path)"/>
+        <arg name="control_rate" value="20.0"/>
+      </include>
+
+      <!-- latlon coupler -->
+      <node pkg="latlon_muxer" exec="latlon_muxer" name="latlon_muxer" output="screen">
+        <remap from="input/lateral/control_cmd" to="lateral/control_cmd"/>
+        <remap from="input/longitudinal/control_cmd" to="longitudinal/control_cmd"/>
+        <remap from="output/control_cmd" to="control_cmd"/>
+      </node>
+
+      <include file="$(find-pkg-share trajectory_follow_checker)/launch/trajectory_follow_checker.launch.xml">
+        <arg name="trajectory_follow_checker_param" value="$(var trajectory_follow_checker_param)" />
+      </include>
+
+      <include file="$(find-pkg-share obstacle_collision_checker)/launch/obstacle_collision_checker.launch.xml">
+        <arg name="obstacle_collision_checker_param" value="$(var obstacle_collision_checker_param)" />
+      </include>
+
+    </group>
+
+    <!-- vehicle cmd gate -->
+    <include file="$(find-pkg-share vehicle_cmd_gate)/launch/vehicle_cmd_gate.launch.xml">
+      <arg name="config_file" value="$(var vehicle_cmd_gate_param_path)"/>
+      <arg name="use_emergency_handling" value="false"/>
+      <arg name="use_external_emergency_stop" value="false"/>
+    </include>
+
+  </group>
+</launch>

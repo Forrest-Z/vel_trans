@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>motion_velocity_optimizer</name>
+  <version>0.1.0</version>
+  <description>The motion_velocity_optimizer package</description>
+
+  <maintainer email="horibe.takamasa@gmail.com">Takamasa Horibe</maintainer>
+
+  <license>Apache License 2.0</license>
+
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>autoware_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+  <depend>autoware_debug_msgs</depend>
+  <depend>autoware_planning_msgs</depend>
+  <depend>boost</depend>
+  <depend>eigen</depend>
+  <depend>geometry_msgs</depend>
+  <depend>osqp_interface</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+
+  <exec_depend>rclpy</exec_depend>
+
+</package>
